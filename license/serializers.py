@@ -6,4 +6,4 @@ class LicenseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = License
-        fields = ('id', 'identifier', 'rented')
+        fields = ('id', 'identifier', 'rented', 'rent_date')
