@@ -1,8 +1,9 @@
 from rest_framework import serializers
-from propellerhead.models import License
+from license.models import License
 
 
 class LicenseSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = License
-        fields = '__all__'
+        fields = ('identifier', 'rented')

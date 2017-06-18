@@ -16,6 +16,6 @@ Including another URLconf
 from django.conf.urls import url, include
 
 urlpatterns = [
-    # url(r'^', include('snippets.urls')),
-    url(r'^', include('propellerhead.urls'))
+    url(r'^', include('snippets.urls')),
+    url(r'^', include('license.urls'))
 ]

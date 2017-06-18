@@ -1,10 +1,10 @@
 from django.conf.urls import url, include
-from propellerhead import views
+from license import views
 from rest_framework.routers import DefaultRouter
 
 
 router = DefaultRouter()
-router.register(r'propellerhead', views.LicenseViewSet)
+router.register(r'license', views.LicenseViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls)),

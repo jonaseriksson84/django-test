@@ -3,6 +3,8 @@ from django.db import models
 
 # Create your models here.
 class License(models.Model):
-    identifier = models.CharField(max_length=100, blank=False)
+    identifier = models.CharField(max_length=100, blank=False, unique=True)
     rented = models.BooleanField(default=False)
-    last_rented = models.DateTimeField()
+
+    def __str__(self):
+        return self.identifier
