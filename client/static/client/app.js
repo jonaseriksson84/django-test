@@ -1,6 +1,6 @@
 var app = angular.module('app', []);
 
-app.controller('mainCtrl', ['$scope', '$http', '$interval', function($scope, $http, $interval) {
+app.controller('mainCtrl', ['$scope', '$http', '$interval', '$timeout', function($scope, $http, $interval, $timeout) {
     $scope.text = 'funkar';
 
     $interval(function() {
@@ -9,10 +9,27 @@ app.controller('mainCtrl', ['$scope', '$http', '$interval', function($scope, $ht
         }
     }, 1000);
 
+    function notifyExpiration() {
+        $timeout(function() {
+            alert('Your license "' + $scope.rentedLicense.identifier + '" has expired');
+            $scope.rentedLicense = null;
+        }, 15000);
+    }
+
+    $scope.rentLicense = function() {
+        $http.get('../license/rent/').then(function (result) {
+            $scope.rentedLicense = result.data;
+            notifyExpiration();
+        }, function (error) {
+            $scope.errorMessage = error.data;
+            console.error('Couldn\'t retrieve any free license', error);
+        })
+    }
+
     $scope.listLicenses = function() {
         $scope.listing = true;
         $http.get('../license/').then(function (result) {
-            $scope.licenses = result.data.results;
+            $scope.licenses = result.data;
         }, function (error) {
             console.error('Couldn\'t retrieve licenses', error);
         });

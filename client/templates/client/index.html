@@ -5,12 +5,13 @@
 {% verbatim %}
 
 <div class="container text-center"ng-controller="mainCtrl">
-    ->{{text}}<-
+    <!-- ->{{text}}<- -->
 
     <div ng-show="!admin">
         <h3>License machine</h3>
-        <button class="btn btn-primary">Rent license</button><br><br>
-        <button class="btn btn-primary" ng-click="admin = true">Admin</button>
+        <strong ng-show="rentedLicense">Currently renting license: "{{rentedLicense.identifier}}"<br></strong>
+        <button class="btn btn-primary" ng-click="rentLicense()">Rent license</button><br><br>
+        <button class="btn btn-primary" ng-click="admin = true; errorMessage = ''">Admin</button>
     </div>
 
     <div ng-show="admin">
@@ -18,7 +19,7 @@
         <div ng-show="!addDialog">
             <button class="btn btn-primary" ng-click="addDialog = true">Add license</button><br><br>
             <button class="btn btn-primary" ng-click="listLicenses()">List licenses</button><br><br>
-            <button class="btn btn-default" ng-click="admin = false">Back</button><br><br>
+            <button class="btn btn-default" ng-click="admin = false; errorMessage = ''">Back</button><br><br>
         </div>
     </div>
 
@@ -26,7 +27,7 @@
         <div class="form-inline">
             <input type="text" class="form-control" placeholder="Enter license here" ng-model="identifier">
             <button class="btn btn-primary" ng-click="addLicense()">Add</button>
-            <button class="btn btn-primary" ng-click="addDialog= false; identifier = ''; listing = false;">Cancel</button>
+            <button class="btn btn-primary" ng-click="addDialog= false; identifier = ''; listing = false; errorMessage = ''">Cancel</button>
         </div>
         <span class="alert-danger">{{errorMessage ? 'Error: ' + errorMessage : ''}}</span>
     </div>

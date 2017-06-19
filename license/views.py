@@ -11,6 +11,7 @@ from license.serializers import LicenseSerializer
 class LicenseViewSet(viewsets.ModelViewSet):
     queryset = License.objects.all()
     serializer_class = LicenseSerializer
+    pagination_class = None
 
     @list_route()
     def rent(self, request):
