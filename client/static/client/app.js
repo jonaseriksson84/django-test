@@ -60,4 +60,11 @@ app.controller('mainCtrl', ['$scope', '$http', '$interval', '$timeout', function
         });
     }
 
+    $scope.calcRemainingSeconds = function(date) {
+        var d = Date.parse(new Date(date));
+        var now = Date.now();
+        var diff = Math.floor((now - d) / 1000);
+        return 15-diff;
+    }
+
 }]);

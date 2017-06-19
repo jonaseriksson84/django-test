@@ -10,7 +10,7 @@
     <div ng-show="!admin">
         <h3>License machine</h3>
         <span ng-show="errorMessage" class="alert-danger">{{'Error: ' + errorMessage}}<br></span>
-        <strong ng-show="rentedLicense">Currently renting license: "{{rentedLicense.identifier}}"<br></strong>
+        <strong ng-show="rentedLicense">Currently renting license: "{{rentedLicense.identifier}}", {{calcRemainingSeconds(rentedLicense.rent_date)}} seconds left<br></strong>
         <button class="btn btn-primary" ng-click="rentLicense()">Rent license</button><br><br>
         <button class="btn btn-primary" ng-click="admin = true; errorMessage = ''">Admin</button>
     </div>
@@ -30,7 +30,7 @@
             <button class="btn btn-primary" ng-click="addLicense()">Add</button>
             <button class="btn btn-primary" ng-click="addDialog= false; identifier = ''; listing = false; errorMessage = ''">Cancel</button>
         </div>
-        <span class="alert-danger">{{'Error: ' + errorMessage}}</span>
+        <span ng-show="errorMessage" class="alert-danger">{{'Error: ' + errorMessage}}</span>
     </div>
 
 
@@ -46,7 +46,7 @@
                 </tr>
                 <tr ng-repeat="license in licenses">
                     <td>{{license.identifier}}</td>
-                    <td>{{license.rented ? 'rented' : 'not rented'}}</td>
+                    <td>{{license.rented ? calcRemainingSeconds(license.rent_date) + ' seconds left' : 'not rented'}}</td>
                 </tr>
             </table>
         </div>
