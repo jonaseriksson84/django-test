@@ -9,6 +9,7 @@
 
     <div ng-show="!admin">
         <h3>License machine</h3>
+        <span ng-show="errorMessage" class="alert-danger">{{'Error: ' + errorMessage}}<br></span>
         <strong ng-show="rentedLicense">Currently renting license: "{{rentedLicense.identifier}}"<br></strong>
         <button class="btn btn-primary" ng-click="rentLicense()">Rent license</button><br><br>
         <button class="btn btn-primary" ng-click="admin = true; errorMessage = ''">Admin</button>
@@ -29,7 +30,7 @@
             <button class="btn btn-primary" ng-click="addLicense()">Add</button>
             <button class="btn btn-primary" ng-click="addDialog= false; identifier = ''; listing = false; errorMessage = ''">Cancel</button>
         </div>
-        <span class="alert-danger">{{errorMessage ? 'Error: ' + errorMessage : ''}}</span>
+        <span class="alert-danger">{{'Error: ' + errorMessage}}</span>
     </div>
 
 

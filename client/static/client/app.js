@@ -11,8 +11,11 @@ app.controller('mainCtrl', ['$scope', '$http', '$interval', '$timeout', function
 
     function notifyExpiration() {
         $timeout(function() {
-            alert('Your license "' + $scope.rentedLicense.identifier + '" has expired');
-            $scope.rentedLicense = null;
+            if ($scope.rentedLicense) {
+                alert('Your license "' + $scope.rentedLicense.identifier + '" has expired');
+                $scope.rentedLicense = null;
+            }
+            $scope.errorMessage = '';
         }, 15000);
     }
 
@@ -21,8 +24,14 @@ app.controller('mainCtrl', ['$scope', '$http', '$interval', '$timeout', function
             $scope.rentedLicense = result.data;
             notifyExpiration();
         }, function (error) {
-            $scope.errorMessage = error.data;
-            console.error('Couldn\'t retrieve any free license', error);
+            if (error.status === 404) {
+                $scope.rentedLicense = null;
+                $scope.errorMessage = 'No free licenses on server';
+                notifyExpiration();
+            } else {
+                $scope.errorMessage = error.data;
+                console.error('Couldn\'t retrieve any free license', error);
+            }
         })
     }
 
