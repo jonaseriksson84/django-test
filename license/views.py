@@ -25,8 +25,7 @@ class LicenseViewSet(viewsets.ModelViewSet):
         serializer = LicenseSerializer(license)
 
         if license:
-            print(request.user)
-            license.rent()
+            license.rent(request.user)
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
