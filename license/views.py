@@ -10,16 +10,24 @@ from django.contrib.auth.models import User
 
 
 class LicenseViewSet(viewsets.ModelViewSet):
+
     queryset = License.objects.all()
     serializer_class = LicenseSerializer
     pagination_class = None
 
     @list_route()
     def rent(self, request):
+        # Check that user is authenticated, otherwise forbidden
         if not request.user.is_authenticated:
-            return Response(status=status.HTTP_403_FORBIDDEN)
+            return Response({"errorMessage": "You must be logged in to rent a license"},
+                            status=status.HTTP_403_FORBIDDEN)
+
+        if License.objects.filter(rented_by=request.user):
+            return Response({"errorMessage": "You can only rent 1 license at a time"},
+                            status=status.HTTP_403_FORBIDDEN)
 
         fifteensecondsago = timezone.now() - datetime.timedelta(seconds=15)
+        print(License.objects.filter(rented_by=request.user))
         license = License.objects.filter(Q(rent_date=None) | Q(
             rent_date__lt=fifteensecondsago)).first()
         serializer = LicenseSerializer(license)
@@ -28,7 +36,8 @@ class LicenseViewSet(viewsets.ModelViewSet):
             license.rent(request.user)
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            return Response({"errorMessage": "No licenses currently available on server"},
+                            status=status.HTTP_404_NOT_FOUND)
 
 
 class UserList(generics.ListAPIView):

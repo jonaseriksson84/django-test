@@ -5,10 +5,15 @@
 {% verbatim %}
 
 <div class="container text-center"ng-controller="mainCtrl">
+    <div ng-show="false">
+        <div class="pull-right">
+            <a href="http://localhost:8000/api-auth/login/?next=/client/"><button class="btn btn-primary">Login</button></a>
+        </div>
+    </div>
     <!-- ->{{text}}<- -->
 
     <div ng-show="!admin">
-        <h3>License machine</h3>
+        <h3>License Client</h3>
         <span ng-show="errorMessage" class="alert-danger">{{'Error: ' + errorMessage}}<br></span>
         <strong ng-show="rentedLicense">Currently renting license: "{{rentedLicense.identifier}}", {{calcRemainingSeconds(rentedLicense.rent_date)}} seconds left<br></strong>
         <button class="btn btn-primary" ng-click="rentLicense()">Rent license</button><br><br>
@@ -46,7 +51,7 @@
                 </tr>
                 <tr ng-repeat="license in licenses">
                     <td>{{license.identifier}}</td>
-                    <td>{{license.rented ? calcRemainingSeconds(license.rent_date) + ' seconds left' : 'not rented'}}</td>
+                    <td>{{license.rented ? license.rented_by + ', ' + calcRemainingSeconds(license.rent_date) + ' seconds left' : 'not rented'}}</td>
                 </tr>
             </table>
         </div>
@@ -54,6 +59,10 @@
 </div>
 
 {% endverbatim %}
+<script type="text/javascript">
+    var csrf = {{ csrf_token }}
+    console.log(csrf_token);
+</script>
 <script type="text/javascript" src="{% static '/client/angular.js' %}"></script>
 <script type="text/javascript" src="{% static '/client/app.js' %}"></script>
 <link rel="stylesheet" href="{% static '/client/bootstrap.min.css' %}">

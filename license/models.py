@@ -9,7 +9,8 @@ class License(models.Model):
     identifier = models.CharField(max_length=100, blank=False, unique=True)
     rent_date = models.DateTimeField(blank=True, null=True)
     rented = models.BooleanField(default=False)
-    rented_by = models.ForeignKey('auth.User', related_name='license', null=True)
+    rented_by = models.ForeignKey(
+        'auth.User', related_name='license', null=True)
 
     def save(self, *args, **kwargs):
         super(License, self).save()
@@ -25,7 +26,7 @@ class License(models.Model):
         self.rented_by = user
         self.rented = True
         self.rent_date = timezone.now()
-        print(repr(self.rented_by))
+        print('License', self.identifier, 'rented at', timezone.now())
         super(License, self).save()
         t = threading.Thread(target=self.mark_available)
         t.start()

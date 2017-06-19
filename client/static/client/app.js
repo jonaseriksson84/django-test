@@ -1,5 +1,10 @@
 var app = angular.module('app', []);
 
+app.config(['$httpProvider', function($httpProvider) {
+    $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+}]);
+
 app.controller('mainCtrl', ['$scope', '$http', '$interval', '$timeout', function($scope, $http, $interval, $timeout) {
     $scope.text = 'funkar';
 
@@ -24,15 +29,10 @@ app.controller('mainCtrl', ['$scope', '$http', '$interval', '$timeout', function
             $scope.rentedLicense = result.data;
             notifyExpiration();
         }, function (error) {
-            if (error.status === 404) {
-                $scope.rentedLicense = null;
-                $scope.errorMessage = 'No free licenses on server';
-                notifyExpiration();
-            } else {
-                $scope.errorMessage = error.data;
-                console.error('Couldn\'t retrieve any free license', error);
-            }
-        })
+            console.log(error.data);
+            $scope.errorMessage = error.data.errorMessage;
+            console.error('Couldn\'t retrieve license', error);
+        });
     }
 
     $scope.listLicenses = function() {
