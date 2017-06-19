@@ -19,9 +19,7 @@ class LicenseViewSet(viewsets.ModelViewSet):
             rent_date__lt=fifteensecondsago)).first()
         serializer = LicenseSerializer(license)
         if license:
-            license.rent_date = timezone.now()
-            license.rented = True
-            license.save()
+            license.rent()
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
