@@ -14,8 +14,9 @@ class License(models.Model):
         super(License, self).save()
 
     def mark_available(self, *args, **kwargs):
-        time.sleep(10)
+        time.sleep(15)
         self.rented = False
+        print('License', self.identifier, 'expired at', timezone.now())
         super(License, self).save(*args, **kwargs)
 
     def rent(self, *args, **kwargs):
