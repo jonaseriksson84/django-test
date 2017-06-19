@@ -9,6 +9,7 @@ class License(models.Model):
     identifier = models.CharField(max_length=100, blank=False, unique=True)
     rent_date = models.DateTimeField(blank=True, null=True)
     rented = models.BooleanField(default=False)
+    rented_by = models.CharField(max_length=100, null=True, unique=False)
 
     def save(self, *args, **kwargs):
         super(License, self).save()
@@ -20,6 +21,7 @@ class License(models.Model):
         super(License, self).save(*args, **kwargs)
 
     def rent(self, *args, **kwargs):
+        print(self, *args, **kwargs)
         self.rented = True
         self.rent_date = timezone.now()
         super(License, self).save(*args, **kwargs)
