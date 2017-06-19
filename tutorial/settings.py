@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'snippets.apps.SnippetsConfig',
-    'license.apps.LicenseConfig'
+    'license.apps.LicenseConfig',
+    'client.apps.ClientConfig',
 ]
 
 MIDDLEWARE = [
@@ -123,5 +124,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 REST_FRAMEWORK = {
-    'PAGE_SIZE': 10
+    'PAGE_SIZE': 100
 }

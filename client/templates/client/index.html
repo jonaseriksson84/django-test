@@ -1,0 +1,60 @@
+{% load staticfiles %}
+
+<html ng-app="app">
+<body>
+{% verbatim %}
+
+<div class="container text-center"ng-controller="mainCtrl">
+    ->{{text}}<-
+
+    <div ng-show="!admin">
+        <h3>License machine</h3>
+        <button class="btn btn-primary">Rent license</button><br><br>
+        <button class="btn btn-primary" ng-click="admin = true">Admin</button>
+    </div>
+
+    <div ng-show="admin">
+        <h3>Admin panel</h3>
+        <div ng-show="!addDialog">
+            <button class="btn btn-primary" ng-click="addDialog = true">Add license</button><br><br>
+            <button class="btn btn-primary" ng-click="listLicenses()">List licenses</button><br><br>
+            <button class="btn btn-default" ng-click="admin = false">Back</button><br><br>
+        </div>
+    </div>
+
+    <div ng-show="admin && addDialog">
+        <div class="form-inline">
+            <input type="text" class="form-control" placeholder="Enter license here" ng-model="identifier">
+            <button class="btn btn-primary" ng-click="addLicense()">Add</button>
+            <button class="btn btn-primary" ng-click="addDialog= false; identifier = ''; listing = false;">Cancel</button>
+        </div>
+        <span class="alert-danger">{{errorMessage ? 'Error: ' + errorMessage : ''}}</span>
+    </div>
+
+
+    <div ng-show="licenses && admin && !addDialog">
+        <h3 style="display: inline-block;">Licenses on server</h3>
+        <!-- <label style="display: inline;"><input type="checkbox" ng-model="refresh"> Auto-Refresh</label> -->
+        <br>
+        <div class="col-xs-4 col-xs-offset-4 text-center">
+            <table class="table table-bordered">
+                <tr>
+                    <th>License</th>
+                    <th>Status</th>
+                </tr>
+                <tr ng-repeat="license in licenses">
+                    <td>{{license.identifier}}</td>
+                    <td>{{license.rented ? 'rented' : 'not rented'}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endverbatim %}
+<script type="text/javascript" src="{% static '/client/angular.js' %}"></script>
+<script type="text/javascript" src="{% static '/client/app.js' %}"></script>
+<link rel="stylesheet" href="{% static '/client/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static '/client/bootstrap-theme.min.css' %}">
+</body>
+</html>
