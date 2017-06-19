@@ -31,6 +31,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$interval', '$timeout', function
         }, function (error) {
             console.log(error.data);
             $scope.errorMessage = error.data.errorMessage;
+            notifyExpiration();
             console.error('Couldn\'t retrieve license', error);
         });
     }
